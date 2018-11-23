@@ -3,6 +3,14 @@
 /* Surface to store current scribbles */
 static cairo_surface_t *surface = NULL;
 
+
+static void
+print_hello (GtkWidget *widget,
+             gpointer   data)
+{
+  g_print ("Hello World\n");
+}
+
 static void
 clear_surface (void)
 {
