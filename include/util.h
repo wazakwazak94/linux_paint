@@ -121,12 +121,8 @@ motion_notify_event_cb (GtkWidget      *widget,
     return TRUE;
 }
 
-static void
-close_window (void)
-{
-    if (surface)
-        cairo_surface_destroy (surface);
-}
+void
+close_window (void);
 
 void 
 activate (GtkApplication* app,

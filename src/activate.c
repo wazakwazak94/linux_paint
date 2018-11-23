@@ -1,5 +1,12 @@
 #include "util.h"
 
+void
+close_window (void)
+{
+    if (surface)
+        cairo_surface_destroy (surface);
+}
+
 void 
 activate (GtkApplication* app,
           gpointer        user_data)
