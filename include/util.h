@@ -63,14 +63,14 @@ draw_brush (GtkWidget *widget,
     /* Paint to the surface, where we store our state */
     cr = cairo_create (surface);
 
-    cairo_rectangle (cr, x - 3, y - 3, 6, 6);
+    cairo_rectangle (cr, x - 11, y - 11, 3, 3);
     cairo_set_source_rgb(cr, 0.13, 1, 0.23);
     cairo_fill (cr);
 
     cairo_destroy (cr);
 
     /* Now invalidate the affected region of the drawing area. */
-    gtk_widget_queue_draw_area (widget, x - 3, y - 3, 6, 6);
+    gtk_widget_queue_draw_area (widget, x - 3, y - 3, 3, 3);
 }
 
 /* Handle button press events by either drawing a rectangle

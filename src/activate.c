@@ -1,4 +1,5 @@
 #include "util.h"
+#include "button.h"
 
 void
 close_window (void)
@@ -17,6 +18,7 @@ activate (GtkApplication* app,
 
     window = gtk_application_window_new (app);
     gtk_window_set_title (GTK_WINDOW (window), "Linux Paint");
+    makeButton(window);
 
     g_signal_connect (window, "destroy", G_CALLBACK (close_window), NULL);
 
@@ -50,7 +52,7 @@ activate (GtkApplication* app,
     */
     gtk_widget_set_events (drawing_area, gtk_widget_get_events (drawing_area)
                                         | GDK_BUTTON_PRESS_MASK
-                                        | GDK_POINTER_MOTION_MASK);
+                                        | lGDK_POINTER_MOTION_MASK);
 
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);

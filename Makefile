@@ -1,4 +1,4 @@
-FOLDERS = lib app
+FOLDERS = src app
 .PHONY = all clean
 
 all:
