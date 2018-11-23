@@ -15,11 +15,15 @@ activate (GtkApplication* app,
     GtkWidget *window;
     GtkWidget *frame;
     GtkWidget *drawing_area;
+    
+    // About button
+    GtkWidget *button;
+    GtkWidget *button_box;
 
     window = gtk_application_window_new (app);
     gtk_window_set_title (GTK_WINDOW (window), "Linux Paint");
-    makeButton(window);
 
+    
     g_signal_connect (window, "destroy", G_CALLBACK (close_window), NULL);
 
     gtk_container_set_border_width (GTK_CONTAINER (window), 8);
@@ -52,8 +56,14 @@ activate (GtkApplication* app,
     */
     gtk_widget_set_events (drawing_area, gtk_widget_get_events (drawing_area)
                                         | GDK_BUTTON_PRESS_MASK
-                                        | lGDK_POINTER_MOTION_MASK);
-
+                                        | GDK_POINTER_MOTION_MASK);
+                                        
+	button_box = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_container_add (GTK_CONTAINER (window), button_box);	
+	button = gtk_button_new_with_label ("Hello World");
+  	g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+  	g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_destroy), window);
+	gtk_container_add (GTK_CONTAINER (button_box), button);
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);
 }
