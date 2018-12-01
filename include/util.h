@@ -3,6 +3,13 @@
 /* Surface to store current scribbles */
 static cairo_surface_t *surface = NULL;
 
+//color of Brush
+struct brush_color{
+    double R;
+    double G;
+    double B;
+};
+struct brush_color brushColor;
 
 static void
 print_hello (GtkWidget *widget,
@@ -67,12 +74,15 @@ draw_brush (GtkWidget *widget,
             gdouble    y)
 {
     cairo_t *cr;
+    brushColor.R = 0.2;
+    brushColor.G = 0.53;
+    brushColor.B = 0.23;
 
     /* Paint to the surface, where we store our state */
     cr = cairo_create (surface);
 
     cairo_rectangle (cr, x - 3, y - 3, 6, 6);
-    cairo_set_source_rgb(cr, 0.13, 1, 0.23);
+    cairo_set_source_rgb(cr, brushColor.R, brushColor.G, brushColor.B);
     cairo_fill (cr);
 
     cairo_destroy (cr);

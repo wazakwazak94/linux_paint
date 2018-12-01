@@ -1,4 +1,5 @@
 #include "util.h"
+#include "brush.h"
 
 #define ICON_COLOR_ADDR "/icon/color.png"
 
@@ -84,7 +85,7 @@ activate (GtkApplication* app,
     g_signal_connect (button_thickness, "clicked", G_CALLBACK (print_hello), NULL);
     
     button_color = gtk_button_new_with_label ("Color");
-    g_signal_connect (button_color, "clicked", G_CALLBACK (print_hello), NULL);
+    g_signal_connect (button_color, "clicked", G_CALLBACK (color_util), NULL);
 
     gtk_fixed_put(GTK_FIXED (fixed), button_save, 0, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_open, 50, 0);
