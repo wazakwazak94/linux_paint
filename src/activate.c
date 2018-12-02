@@ -1,7 +1,78 @@
 #include "util.h"
 #include "brush.h"
 
-#define ICON_COLOR_ADDR "/icon/color.png"
+void
+clear_surface (void)
+{
+    cairo_t *cr;
+
+    cr = cairo_create (surface);
+
+    cairo_set_source_rgb (cr, 1, 1, 1);
+    cairo_paint (cr);
+
+    cairo_destroy (cr);
+}
+
+/* Create a new surface of the appropriate size to store our scribbles */
+gboolean
+configure_event_cb (GtkWidget         *widget,
+                    GdkEventConfigure *event,
+                    gpointer           data)
+{
+    if (surface)
+        cairo_surface_destroy (surface);
+
+    surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget),
+                                                CAIRO_CONTENT_COLOR,
+                                                gtk_widget_get_allocated_width (widget),
+                                                gtk_widget_get_allocated_height (widget));
+
+    /* Initialize the surface to white */
+    clear_surface ();
+
+    /* We've handled the configure event, no need for further processing. */
+    return TRUE;
+}
+
+gboolean
+button_press_event_cb (GtkWidget      *widget,
+                       GdkEventButton *event,
+                       gpointer        data)
+{
+    /* paranoia check, in case we haven't gotten a configure event */
+    if (surface == NULL)
+        return FALSE;
+
+    if (event->button == GDK_BUTTON_PRIMARY)
+        {
+        draw_brush (widget, event->x, event->y);
+        }
+    else if (event->button == GDK_BUTTON_SECONDARY)
+        {
+        clear_surface ();
+        gtk_widget_queue_draw (widget);
+        }
+
+    /* We've handled the event, stop processing */
+    return TRUE;
+}
+
+gboolean
+motion_notify_event_cb (GtkWidget      *widget,
+                        GdkEventMotion *event,
+                        gpointer        data)
+{
+    /* paranoia check, in case we haven't gotten a configure event */
+    if (surface == NULL)
+        return FALSE;
+
+    if (event->state & GDK_BUTTON1_MASK)
+        draw_brush (widget, event->x, event->y);
+
+    /* We've handled it, stop processing */
+    return TRUE;
+}
 
 void
 close_window (void)
@@ -89,12 +160,12 @@ activate (GtkApplication* app,
 
     gtk_fixed_put(GTK_FIXED (fixed), button_save, 0, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_open, 50, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_brush, 100, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_erase, 150, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 200, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_color, 250, 1);
+    gtk_fixed_put(GTK_FIXED (fixed), button_brush, 105, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_erase, 165, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 220, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_color, 305, 0);
     gtk_fixed_put(GTK_FIXED (fixed), frame, 0, 40);
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);
-}
+}   
