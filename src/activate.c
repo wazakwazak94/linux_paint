@@ -48,11 +48,11 @@ button_press_event_cb (GtkWidget      *widget,
         {
         draw_brush (widget, event->x, event->y);
         }
-    else if (event->button == GDK_BUTTON_SECONDARY)
+    /*else if (event->button == GDK_BUTTON_SECONDARY)
         {
         clear_surface ();
         gtk_widget_queue_draw (widget);
-        }
+        }*/
 
     /* We've handled the event, stop processing */
     return TRUE;

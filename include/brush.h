@@ -7,7 +7,7 @@
 #include <string.h>
 
 extern cairo_surface_t *surface;
-static cairo_surface_t *color_surface;
+static cairo_surface_t *color_surface = NULL;
 
 static GtkWidget *color_window;
 static GtkWidget *color_frame;
@@ -48,6 +48,14 @@ set_color_area (void)
 }
 
 void
+set_brush_color(void)
+{
+    brushColor.R = showColor.R;
+    brushColor.G = showColor.G;
+    brushColor.B = showColor.B;
+}
+
+void
 set_entry_R(GtkWidget *widget,
             GtkWidget *entry)
 {
@@ -64,7 +72,9 @@ set_entry_R(GtkWidget *widget,
     else
     {
         showColor.R = red;
+        set_brush_color();
         set_color_area();
+        gtk_widget_queue_draw (color_area);
     }
 }
 
@@ -85,7 +95,9 @@ set_entry_G(GtkWidget *widget,
     else
     {
         showColor.G = green;
+        set_brush_color();
         set_color_area();
+        gtk_widget_queue_draw (color_area);
     }
 }
 
@@ -106,16 +118,10 @@ set_entry_B(GtkWidget *widget,
     else
     {
         showColor.B = blue;
+        set_brush_color();
         set_color_area();
+        gtk_widget_queue_draw (color_area);
     }
-}
-
-void
-set_brush_color(void)
-{
-    brushColor.R = showColor.R;
-    brushColor.G = showColor.G;
-    brushColor.B = showColor.B;
 }
 
 void
@@ -137,10 +143,38 @@ save_close_color_window (void)
     }
 }
 
+gboolean
+configure_color_cb (GtkWidget         *widget,
+                    GdkEventConfigure *event,
+                    gpointer           data)
+{
+    if (color_surface)
+        cairo_surface_destroy (color_surface);
+
+    color_surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget),
+                                                       CAIRO_CONTENT_COLOR,
+                                                       gtk_widget_get_allocated_width (widget),
+                                                       gtk_widget_get_allocated_height (widget));
+
+    set_color_area ();
+    return TRUE;
+}
+
 /* Redraw the screen from the surface. Note that the ::draw
  * signal receives a ready-to-be-used cairo_t that is already
  * clipped to only draw the exposed areas of the widget
  */
+gboolean
+color_cb (GtkWidget *widget,
+         cairo_t   *cr,
+         gpointer   data)
+{
+    cairo_set_source_surface (cr, color_surface, 0, 0);
+    cairo_paint (cr);
+
+    return FALSE;
+}
+
 gboolean
 draw_cb (GtkWidget *widget,
          cairo_t   *cr,
@@ -192,6 +226,7 @@ color_util (GtkWidget *widget,
   color_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(color_window), "Color");
   gtk_window_set_default_size(GTK_WINDOW(color_window), 350, 250);
+
   gtk_container_set_border_width (GTK_CONTAINER(color_window),8);
 
   fixed = gtk_fixed_new();
@@ -206,7 +241,10 @@ color_util (GtkWidget *widget,
   gtk_widget_set_size_request(color_area,150,150);
   gtk_container_add (GTK_CONTAINER(color_frame),color_area);
 
-  set_color_area();
+  g_signal_connect (color_area, "draw",
+                        G_CALLBACK (color_cb), NULL);
+  g_signal_connect (color_area, "configure-event",
+                    G_CALLBACK(configure_color_cb), NULL);
 
   //button setting
   button_cancel = gtk_button_new_with_label("Cancel");
