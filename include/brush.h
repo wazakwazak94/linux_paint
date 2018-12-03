@@ -1,12 +1,12 @@
 #ifndef _BRUSH_H_
 #define _BRUSH_H_
 
-#include <unix-print/gtk/gtkunixprint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 extern cairo_surface_t *surface;
+extern gint thickness_;
 static cairo_surface_t *color_surface = NULL;
 
 static GtkWidget *color_window;
@@ -197,14 +197,14 @@ draw_brush (GtkWidget *widget,
     //* Paint to the surface, where we store our state 
     cr = cairo_create (surface);
 
-    cairo_rectangle (cr, x - 3, y - 3, 6, 6);
+    cairo_rectangle (cr, x - 3, y - 3, thickness_, thickness_);
     cairo_set_source_rgb(cr, brushColor.R, brushColor.G, brushColor.B);
     cairo_fill (cr);
 
     cairo_destroy (cr);
 
     //* Now invalidate the affected region of the drawing area. 
-    gtk_widget_queue_draw_area (widget, x - 3, y - 3, 6, 6);
+    gtk_widget_queue_draw_area (widget, x - 3, y - 3, thickness_, thickness_);
 }
 
 void

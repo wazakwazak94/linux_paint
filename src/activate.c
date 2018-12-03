@@ -1,5 +1,6 @@
 #include "util.h"
 #include "brush.h"
+#include "thickness.h"
 
 void
 clear_surface (void)
@@ -98,6 +99,8 @@ activate (GtkApplication* app,
     GtkWidget *button_thickness;
     GtkWidget *fixed;
 
+    thickness_ = 10;
+
     window = gtk_application_window_new (app);
     gtk_window_set_title (GTK_WINDOW (window), "Linux Paint");
     gtk_window_set_default_size(GTK_WINDOW (window),800,640);
@@ -153,7 +156,7 @@ activate (GtkApplication* app,
     g_signal_connect (button_erase, "clicked", G_CALLBACK (print_hello), NULL);
 
     button_thickness = gtk_button_new_with_label ("Thickness");
-    g_signal_connect (button_thickness, "clicked", G_CALLBACK (print_hello), NULL);
+    g_signal_connect (button_thickness, "clicked", G_CALLBACK (thickness_util), NULL);
     
     button_color = gtk_button_new_with_label ("Color");
     g_signal_connect (button_color, "clicked", G_CALLBACK (color_util), NULL);

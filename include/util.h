@@ -4,6 +4,7 @@
 
 /* Surface to store current scribbles */
 static cairo_surface_t *surface = NULL;
+extern gint thickness_;
 
 static void
 print_hello (GtkWidget *widget,
