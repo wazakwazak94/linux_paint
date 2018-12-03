@@ -4,6 +4,7 @@
 #include <unix-print/gtk/gtkunixprint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern cairo_surface_t *surface;
 static cairo_surface_t *color_surface;
@@ -12,15 +13,26 @@ static GtkWidget *color_window;
 static GtkWidget *color_frame;
 static GtkWidget *color_area;
 
+GtkWidget *entry_R;
+GtkWidget *entry_G;
+GtkWidget *entry_B;
+
 //color of Brush
 struct brush_color{
     double R;
     double G;
     double B;
 };
+
+struct char_brush_color{
+    char R[4];
+    char G[4];
+    char B[4];
+};
+
 struct brush_color brushColor;
-struct brush_color tempColor;
 struct brush_color showColor;
+struct char_brush_color charColor;
 
 void
 set_color_area (void)
@@ -117,6 +129,9 @@ void
 save_close_color_window (void)
 {
     if(color_window){
+        set_entry_R(entry_R,entry_R);
+        set_entry_G(entry_G,entry_G);
+        set_entry_B(entry_B,entry_B);
         set_brush_color();
         gtk_widget_destroy (color_window);
     }
@@ -166,26 +181,17 @@ color_util (GtkWidget *widget,
   GtkWidget *button_ok;
   GtkWidget *button_cancel;
 
-  GtkWidget *entry_R;
-  GtkWidget *entry_G;
-  GtkWidget *entry_B;
-
-  GtkWidget *scroll_R;
-  GtkWidget *scroll_G;
-  GtkWidget *scroll_B;
-
-  tempColor.R = brushColor.R;
-  tempColor.G = brushColor.G;
-  tempColor.B = brushColor.B;
   showColor.R = brushColor.R;
   showColor.G = brushColor.G;
   showColor.B = brushColor.B;
 
-  set_color_area();
+  sprintf(charColor.R,"%d",(int)(brushColor.R*255));
+  sprintf(charColor.G,"%d",(int)(brushColor.G*255));
+  sprintf(charColor.B,"%d",(int)(brushColor.B*255));
 
   color_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(color_window), "Color");
-  gtk_window_set_default_size(GTK_WINDOW(color_window), 500, 250);
+  gtk_window_set_default_size(GTK_WINDOW(color_window), 350, 250);
   gtk_container_set_border_width (GTK_CONTAINER(color_window),8);
 
   fixed = gtk_fixed_new();
@@ -200,6 +206,8 @@ color_util (GtkWidget *widget,
   gtk_widget_set_size_request(color_area,150,150);
   gtk_container_add (GTK_CONTAINER(color_frame),color_area);
 
+  set_color_area();
+
   //button setting
   button_cancel = gtk_button_new_with_label("Cancel");
   g_signal_connect (button_cancel, "clicked", G_CALLBACK(close_color_window),NULL);
@@ -209,18 +217,22 @@ color_util (GtkWidget *widget,
 
   //entry setting
   entry_R = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(entry_R), (const gchar *)charColor.R);
   g_signal_connect (entry_R, "activate", G_CALLBACK(set_entry_R), entry_R);
   entry_G = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(entry_G), (const gchar *)charColor.G);
   g_signal_connect (entry_G, "activate", G_CALLBACK(set_entry_G), entry_G);
   entry_B = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(entry_B), (const gchar *)charColor.B);    
   g_signal_connect (entry_B, "activate", G_CALLBACK(set_entry_B), entry_B);
 
+
   gtk_fixed_put(GTK_FIXED (fixed), color_frame, 20, 20);
-  gtk_fixed_put(GTK_FIXED (fixed), button_cancel, 450,200);
-  gtk_fixed_put(GTK_FIXED (fixed), button_ok, 415,200);
-  gtk_fixed_put(GTK_FIXED (fixed), entry_R, 200,100);
-  gtk_fixed_put(GTK_FIXED (fixed), entry_G, 200,150);
-  gtk_fixed_put(GTK_FIXED (fixed), entry_B, 200,200);
+  gtk_fixed_put(GTK_FIXED (fixed), button_cancel, 250,200);
+  gtk_fixed_put(GTK_FIXED (fixed), button_ok, 215,200);
+  gtk_fixed_put(GTK_FIXED (fixed), entry_R, 180,30);
+  gtk_fixed_put(GTK_FIXED (fixed), entry_G, 180,80);
+  gtk_fixed_put(GTK_FIXED (fixed), entry_B, 180,130);
 
   gtk_widget_show_all(color_window);
 }
