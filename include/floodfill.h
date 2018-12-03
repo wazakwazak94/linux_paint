@@ -139,7 +139,6 @@ save_close_flood_color_window (void)
         set_flood_entry_G(flood_entry_G,flood_entry_G);
         set_flood_entry_B(flood_entry_B,flood_entry_B);
         set_flood_color();
-        gtk_widget_destroy (flood_color_window);
     }
 }
 
@@ -195,14 +194,10 @@ flood_fill (GtkWidget *widget,
     //* Paint to the surface, where we store our state 
     cr = cairo_create (surface);
 
-    cairo_rectangle (cr, 0, 0, 800, 600);
     cairo_set_source_rgb(cr, floodColor.R, floodColor.G, floodColor.B);
-    cairo_fill (cr);
+    cairo_paint (cr);
 
-//    cairo_destroy (cr);
-
-    //* Now invalidate the affected region of the drawing area. 
-//    gtk_widget_queue_draw_area (widget, x - 3, y - 3, 6, 6);
+    cairo_destroy (cr);
 }
 void
 flood_util (GtkWidget *widget,
@@ -210,6 +205,7 @@ flood_util (GtkWidget *widget,
 {
   GtkWidget *flood_fixed;
   GtkWidget *flood_button_ok;
+  GtkWidget *flood_button_set;
   GtkWidget *flood_button_cancel;
   
   flood_showColor.R = floodColor.R;
@@ -247,8 +243,13 @@ flood_util (GtkWidget *widget,
   flood_button_cancel = gtk_button_new_with_label("Cancel");
   g_signal_connect (flood_button_cancel, "clicked", G_CALLBACK(close_flood_color_window),NULL);
   
+  flood_button_set = gtk_button_new_with_label ("Set");
+  g_signal_connect (flood_button_set, "clicked", G_CALLBACK(save_close_flood_color_window),NULL);  	
+
   flood_button_ok = gtk_button_new_with_label ("Ok");
-  g_signal_connect (flood_button_ok, "clicked", G_CALLBACK(save_close_flood_color_window),NULL);
+  g_signal_connect (flood_button_ok, "clicked", G_CALLBACK(flood_fill),NULL);
+
+
 
   //entry setting
   flood_entry_R = gtk_entry_new();
@@ -264,7 +265,8 @@ flood_util (GtkWidget *widget,
 
   gtk_fixed_put(GTK_FIXED (flood_fixed), flood_color_frame, 20, 20);
   gtk_fixed_put(GTK_FIXED (flood_fixed), flood_button_cancel, 250,200);
-  gtk_fixed_put(GTK_FIXED (flood_fixed), flood_button_ok, 215,200);
+  gtk_fixed_put(GTK_FIXED (flood_fixed), flood_button_ok, 180,200);
+  gtk_fixed_put(GTK_FIXED (flood_fixed), flood_button_set, 215,200);
   gtk_fixed_put(GTK_FIXED (flood_fixed), flood_entry_R, 180,30);
   gtk_fixed_put(GTK_FIXED (flood_fixed), flood_entry_G, 180,80);
   gtk_fixed_put(GTK_FIXED (flood_fixed), flood_entry_B, 180,130);

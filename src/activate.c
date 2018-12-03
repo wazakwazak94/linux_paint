@@ -47,12 +47,12 @@ button_press_event_cb (GtkWidget      *widget,
 
     if (event->button == GDK_BUTTON_PRIMARY)
         {
-        draw_brush (widget, event->x, event->y);
+        	draw_brush (widget, event->x, event->y);
         }
     else if (event->button == GDK_BUTTON_SECONDARY)
         {
-        flood_fill(widget, event->x, event->y);
-//        gtk_widget_queue_draw (widget);
+        	flood_fill(widget, event->x, event->y);
+//        	gtk_widget_queue_draw (widget);
         }
 
     /* We've handled the event, stop processing */
@@ -69,8 +69,7 @@ motion_notify_event_cb (GtkWidget      *widget,
         return FALSE;
 
     if (event->state & GDK_BUTTON1_MASK)
-        draw_brush (widget, event->x, event->y);
-
+        draw_brush (widget, event->x, event->y);	
     /* We've handled it, stop processing */
     return TRUE;
 }
