@@ -1,5 +1,6 @@
 #include "util.h"
 #include "brush.h"
+#include "floodfill.h"
 
 void
 clear_surface (void)
@@ -96,6 +97,7 @@ activate (GtkApplication* app,
     GtkWidget *button_brush;
     GtkWidget *button_erase;
     GtkWidget *button_thickness;
+    GtkWidget *button_flood;    
     GtkWidget *fixed;
 
     window = gtk_application_window_new (app);
@@ -159,7 +161,7 @@ activate (GtkApplication* app,
     g_signal_connect (button_color, "clicked", G_CALLBACK (color_util), NULL);
     
     button_flood = gtk_button_new_with_label ("Flood Fill");
-    g_signal_connect (button_color, "clicked", G_CALLBACK (flood_util), NULL);
+    g_signal_connect (button_flood, "clicked", G_CALLBACK (flood_util), NULL);
 
     gtk_fixed_put(GTK_FIXED (fixed), button_save, 0, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_open, 50, 0);
@@ -167,7 +169,7 @@ activate (GtkApplication* app,
     gtk_fixed_put(GTK_FIXED (fixed), button_erase, 165, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 220, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_color, 305, 0);
-	gtk_fixed_put(GTK_FIXED (fixed), button_color, 355, 0);
+	gtk_fixed_put(GTK_FIXED (fixed), button_flood, 355, 0);
     gtk_fixed_put(GTK_FIXED (fixed), frame, 0, 40);
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
