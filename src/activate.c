@@ -49,11 +49,11 @@ button_press_event_cb (GtkWidget      *widget,
         {
         draw_brush (widget, event->x, event->y);
         }
-    /*else if (event->button == GDK_BUTTON_SECONDARY)
+    else if (event->button == GDK_BUTTON_SECONDARY)
         {
-        clear_surface ();
-        gtk_widget_queue_draw (widget);
-        }*/
+        flood_fill(widget, event->x, event->y);
+//        gtk_widget_queue_draw (widget);
+        }
 
     /* We've handled the event, stop processing */
     return TRUE;
@@ -169,7 +169,7 @@ activate (GtkApplication* app,
     gtk_fixed_put(GTK_FIXED (fixed), button_erase, 165, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 220, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_color, 305, 0);
-	gtk_fixed_put(GTK_FIXED (fixed), button_flood, 355, 0);
+	gtk_fixed_put(GTK_FIXED (fixed), button_flood, 390, 0);
     gtk_fixed_put(GTK_FIXED (fixed), frame, 0, 40);
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);

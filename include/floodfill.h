@@ -6,10 +6,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern cairo_surface_t *surface;
+static cairo_surface_t *flood_color_surface = NULL;
+
 static GtkWidget *flood_color_window;
 static GtkWidget *flood_color_frame;
 static GtkWidget *flood_color_area;
-static cairo_surface_t *flood_color_surface = NULL;
+
+GtkWidget *flood_entry_R;
+GtkWidget *flood_entry_G;
+GtkWidget *flood_entry_B;
+
 //Color Setting
 struct flood_color{
     double R;
@@ -22,16 +29,13 @@ struct char_flood_color{
     char G[4];
     char B[4];
 };
-GtkWidget *flood_entry_R;
-GtkWidget *flood_entry_G;
-GtkWidget *flood_entry_B;
 
 struct flood_color floodColor;
 struct flood_color flood_showColor;
 struct char_flood_color flood_charColor;
 
 void
-set_floodcolor_area (void)
+set_flood_color_area (void)
 {
     cairo_t *cr;
 
@@ -69,7 +73,7 @@ set_flood_entry_R(GtkWidget *widget,
     {
         flood_showColor.R = red;
         set_flood_color();
-        set_color_area();
+        set_flood_color_area();
         gtk_widget_queue_draw (flood_color_area);
     }
 }
@@ -92,7 +96,7 @@ set_flood_entry_G(GtkWidget *widget,
     {
         flood_showColor.G = green;
         set_flood_color();
-        set_color_area();
+        set_flood_color_area();
         gtk_widget_queue_draw (flood_color_area);
     }
 }
@@ -115,7 +119,7 @@ set_flood_entry_B(GtkWidget *widget,
     {
         flood_showColor.B = blue;
         set_flood_color();
-        set_color_area();
+        set_flood_color_area();
         gtk_widget_queue_draw (flood_color_area);
     }
 }
@@ -131,18 +135,18 @@ void
 save_close_flood_color_window (void)
 {
     if(flood_color_window){
-        set_entry_R(flood_entry_R,flood_entry_R);
-        set_entry_G(flood_entry_G,flood_entry_G);
-        set_entry_B(flood_entry_B,flood_entry_B);
+        set_flood_entry_R(flood_entry_R,flood_entry_R);
+        set_flood_entry_G(flood_entry_G,flood_entry_G);
+        set_flood_entry_B(flood_entry_B,flood_entry_B);
         set_flood_color();
         gtk_widget_destroy (flood_color_window);
     }
 }
 
 gboolean
-flood_configure_color_cb (GtkWidget         *widget,
-                    GdkEventConfigure *event,
-                    gpointer           data)
+flood_configure_color_cb (GtkWidget	*widget,
+	                      GdkEventConfigure *event,
+                          gpointer data)
 {
     if (flood_color_surface)
         cairo_surface_destroy (flood_color_surface);
@@ -165,7 +169,7 @@ flood_color_cb (GtkWidget *widget,
          cairo_t   *cr,
          gpointer   data)
 {
-    cairo_set_source_surface (cr, surface, 0, 0);
+    cairo_set_source_surface (cr, flood_color_surface, 0, 0);
     cairo_paint (cr);
 
     return FALSE;
@@ -181,31 +185,25 @@ flood_draw_cb (GtkWidget *widget,
 
     return FALSE;
 }
-/*
-void floodflood(GtkWidget *widget,
-               gdouble    x,
-               gdouble    y,
-               unsigned char floodcolor[],unsigned char oldcolor[])
- {  //IF flood COLOR IS SAME AS OLD COLOR< DON"T DO ANYTHING
-	if(oldcolor[0]==floodcolor[0] && oldcolor[1]==floodcolor[1] && oldcolor[2]==floodcolor[2])
-	 	return;
-    unsigned char color[3];
-    glReadPixels(x,y,1,1,GL_RGB,GL_UNSIGNED_BYTE,color);
-    //IF OBTANED PIXEL DOES NOT BELONG TO INTERIOR OF POLYGON
-    if(oldcolor[0]!=color[0] && oldcolor[1]!=color[1] && oldcolor[2]!=color[2])
-	 {return;}
-	glColor3ubv(floodcolor);
-	glBegin(GL_POINTS);
-	glVertex2i(x,y);
-	printf("x=%d,y=%d\n",x,y);
-	glEnd();
-	glFlush();
-    floodflood(x+1,y,floodcolor,oldcolor);
-    floodflood(x,y+1,floodcolor,oldcolor);
-    floodflood(x-1,y,floodcolor,oldcolor);
-    floodflood(x,y-1,floodcolor,oldcolor);
+void
+flood_fill (GtkWidget *widget,
+            gdouble    x,
+            gdouble    y)
+{
+    cairo_t *cr;
+
+    //* Paint to the surface, where we store our state 
+    cr = cairo_create (surface);
+
+    cairo_rectangle (cr, 0, 0, 800, 600);
+    cairo_set_source_rgb(cr, floodColor.R, floodColor.G, floodColor.B);
+    cairo_fill (cr);
+
+//    cairo_destroy (cr);
+
+    //* Now invalidate the affected region of the drawing area. 
+//    gtk_widget_queue_draw_area (widget, x - 3, y - 3, 6, 6);
 }
-*/
 void
 flood_util (GtkWidget *widget,
              gpointer   data)
@@ -223,7 +221,7 @@ flood_util (GtkWidget *widget,
   sprintf(charColor.B,"%d",(int)(floodColor.B*255));
 
   flood_color_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(flood_color_window), "Color");
+  gtk_window_set_title(GTK_WINDOW(flood_color_window), "Flood Color");
   gtk_window_set_default_size(GTK_WINDOW(flood_color_window), 350, 250);
 
   gtk_container_set_border_width (GTK_CONTAINER(flood_color_window),8);
