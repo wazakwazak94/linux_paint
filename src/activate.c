@@ -1,6 +1,7 @@
 #include "util.h"
 #include "brush.h"
 #include "thickness.h"
+#include "erase.h"
 
 void
 clear_surface (void)
@@ -149,11 +150,11 @@ activate (GtkApplication* app,
     button_open = gtk_button_new_with_label ("Open");
     g_signal_connect (button_open, "clicked", G_CALLBACK (print_hello), NULL);
 
-    button_brush = gtk_button_new_with_label ("Brush");
+    button_brush = gtk_button_new_with_label ("Flood Fill");
     g_signal_connect (button_brush, "clicked", G_CALLBACK (print_hello), NULL);
     
     button_erase = gtk_button_new_with_label ("Erase");
-    g_signal_connect (button_erase, "clicked", G_CALLBACK (print_hello), NULL);
+    g_signal_connect (button_erase, "clicked", G_CALLBACK (erase_util), NULL);
 
     button_thickness = gtk_button_new_with_label ("Thickness");
     g_signal_connect (button_thickness, "clicked", G_CALLBACK (thickness_util), NULL);
@@ -164,9 +165,9 @@ activate (GtkApplication* app,
     gtk_fixed_put(GTK_FIXED (fixed), button_save, 0, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_open, 50, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_brush, 105, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_erase, 165, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 220, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_color, 305, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_erase, 185, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 240, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_color, 325, 0);
     gtk_fixed_put(GTK_FIXED (fixed), frame, 0, 40);
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
