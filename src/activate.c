@@ -1,7 +1,7 @@
 #include "util.h"
 #include "brush.h"
 #include "floodfill.h"
-
+#include "filechooser.h"
 void
 clear_surface (void)
 {
@@ -51,7 +51,6 @@ button_press_event_cb (GtkWidget      *widget,
         }
     else if (event->button == GDK_BUTTON_SECONDARY)
         {
-        	flood_fill(widget, event->x, event->y);
 //        	gtk_widget_queue_draw (widget);
         }
 
@@ -86,6 +85,7 @@ activate (GtkApplication* app,
           gpointer        user_data)
 {
     GtkWidget *window;
+    GtkWidget *window_file;
     
     GtkWidget *frame;
     GtkWidget *drawing_area;
@@ -104,8 +104,10 @@ activate (GtkApplication* app,
     gtk_window_set_default_size(GTK_WINDOW (window),800,640);
 
     g_signal_connect (window, "destroy", G_CALLBACK (close_window), NULL);
-
     gtk_container_set_border_width (GTK_CONTAINER (window), 8);
+    
+    window_file = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(window_file, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 
     fixed = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(window), fixed);
@@ -142,8 +144,8 @@ activate (GtkApplication* app,
 
     /* Button box */
     button_save = gtk_button_new_with_label ("Save");
-    g_signal_connect (button_save, "clicked", G_CALLBACK (print_hello), NULL);
-
+    g_signal_connect (button_save, "clicked", G_CALLBACK (open_dialog), window_file);
+    
     button_open = gtk_button_new_with_label ("Open");
     g_signal_connect (button_open, "clicked", G_CALLBACK (print_hello), NULL);
 
@@ -173,4 +175,5 @@ activate (GtkApplication* app,
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);
+    
 }   
