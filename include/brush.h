@@ -1,35 +1,6 @@
 #ifndef _BRUSH_H_
 #define _BRUSH_H_
 
-#include "global.h"
-
-static cairo_surface_t *color_surface = NULL;
-
-static GtkWidget *color_window;
-static GtkWidget *color_frame;
-static GtkWidget *color_area;
-
-GtkWidget *entry_R;
-GtkWidget *entry_G;
-GtkWidget *entry_B;
-
-//color of Brush
-struct brush_color{
-    double R;
-    double G;
-    double B;
-};
-
-struct char_brush_color{
-    char R[4];
-    char G[4];
-    char B[4];
-};
-
-struct brush_color brushColor;
-struct brush_color showColor;
-struct char_brush_color charColor;
-
 void
 set_color_area (void);
 

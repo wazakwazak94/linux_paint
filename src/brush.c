@@ -1,4 +1,7 @@
+#include "global.h"
 #include "brush.h"
+
+cairo_surface_t *color_surface = NULL;
 
 void
 set_color_area (void)

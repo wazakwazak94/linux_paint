@@ -1,3 +1,4 @@
+#include "global.h"
 #include "util.h"
 #include "brush.h"
 #include "thickness.h"

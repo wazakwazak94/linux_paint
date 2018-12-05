@@ -1,8 +1,6 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-#include "global.h"
-
 static void
 print_hello (GtkWidget *widget,
              gpointer   data)
