@@ -10,6 +10,6 @@ all: ${OBJS}
 
 %.o: %.c
 	gcc ${GTKFLAGS} -o $@ $< ${CLFAGS} -c ${HEADER} ${GTKLIBS}
- 
+
 clean:
 	rm ${OBJS}

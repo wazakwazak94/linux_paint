@@ -1,4 +1,4 @@
-FOLDERS = lib app
+FOLDERS = src lib app
 .PHONY = all clean
 
 all:
@@ -8,7 +8,7 @@ all:
 	done\
 
 clean:
-	@for d int $(FOLDERS);\
+	@for d in $(FOLDERS);\
 	do\
 		$(MAKE) -C $$d clean;\
 	done\

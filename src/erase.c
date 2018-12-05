@@ -51,7 +51,10 @@ void
 save_close_erase_window (void)
 {
     if(window_erase){
-        set_thickness(entry_th,entry_th);
+        brushColor.R = 1.0;
+        brushColor.G = 1.0;
+        brushColor.B = 1.0;
+        set_thickness(entry_erase,entry_erase);
         gtk_widget_destroy (window_erase);
     }
 }
