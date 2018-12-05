@@ -1,10 +1,7 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
-#include <gtk/gtk.h>
 
-/* Surface to store current scribbles */
-static cairo_surface_t *surface = NULL;
-extern gint thickness_;
+#include "global.h"
 
 static void
 print_hello (GtkWidget *widget,

@@ -1,13 +1,8 @@
 #ifndef _THICKNESS_H_
 #define _THICKNESS_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "global.h"
 
-extern cairo_surface_t *surface;
-
-gint thickness_;
 gint temp_th;
 char char_th[4];
 
