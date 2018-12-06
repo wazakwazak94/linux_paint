@@ -5,8 +5,14 @@ linux_paint
 
 $ sudo apt-get install libgtk-3-dev
 
-test compile 
+Typing "make" in the linux terminal, linux_paint app is made in "app"
 
-$ cd app/
-
-$ gcc `pkg-config --cflags gtk+-3.0` -o test main.c ../src/*.c -I../include `pkg-config --libs gtk+-3.0`
+function :
+	
+	FILE SAVE
+	FILE OPEN
+	FLOOD FILL
+	ERASE
+	BRUSH THICKNESS CHANGE
+	BRUSH COLOR CHANGE
+	
