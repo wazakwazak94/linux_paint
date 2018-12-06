@@ -8,6 +8,6 @@
 #include<cairo.h>
 GtkWidget *window;
 GtkWidget *drawing_area;
-
+GtkWidget *frame;
 
 #endif

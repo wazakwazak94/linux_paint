@@ -127,19 +127,6 @@ close_flood_color_window (void)
     if(flood_color_window)
         gtk_widget_destroy (flood_color_window);
 }
-
-void
-save_close_flood_color_window (void)
-{
-    if(flood_color_window){
-        set_flood_entry_R(flood_entry_R,flood_entry_R);
-        set_flood_entry_G(flood_entry_G,flood_entry_G);
-        set_flood_entry_B(flood_entry_B,flood_entry_B);
-        set_flood_color();
-    }
-    
-}
-
 gboolean
 flood_configure_color_cb (GtkWidget	*widget,
 	                      GdkEventConfigure *event,
@@ -184,7 +171,7 @@ flood_draw_cb (GtkWidget *widget,
 }
 
 void
-flood_fill (void)
+flood_fill ()
 {
 	if(flood_color_window){
         set_flood_entry_R(flood_entry_R,flood_entry_R);
@@ -193,18 +180,20 @@ flood_fill (void)
         set_flood_color();
         gtk_widget_destroy (flood_color_window);
     }
-    cairo_t *cr;
-
-    //* Paint to the surface, where we store our state 
-    cr = cairo_create (surface);
-
+	
+	cairo_t *cr = cairo_create(surface);
     cairo_set_source_rgb(cr, floodColor.R, floodColor.G, floodColor.B);
     
     cairo_paint (cr);
+    cairo_destroy(cr);
 
-    cairo_destroy (cr);
 }
 
+static gboolean fill_event(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+	flood_fill();
+	return FALSE;
+}
 void
 flood_util (GtkWidget *widget,
              gpointer   data)
@@ -239,10 +228,15 @@ flood_util (GtkWidget *widget,
   gtk_widget_set_size_request(flood_color_area,150,150);
   gtk_container_add (GTK_CONTAINER(flood_color_frame),flood_color_area);
 
+
+  g_signal_connect (drawing_area, "draw",
+                        G_CALLBACK (flood_draw_cb), NULL);
   g_signal_connect (flood_color_area, "draw",
                         G_CALLBACK (flood_color_cb), NULL);
   g_signal_connect (flood_color_area, "configure-event",
                     G_CALLBACK(flood_configure_color_cb), NULL);
+                    
+                    
 
   //button setting
   flood_button_cancel = gtk_button_new_with_label("Cancel");
@@ -250,7 +244,7 @@ flood_util (GtkWidget *widget,
   G_CALLBACK(close_flood_color_window),NULL);
   
   flood_button_ok = gtk_button_new_with_label ("Ok");
-  g_signal_connect (flood_button_ok, "clicked", G_CALLBACK(flood_fill),NULL);
+  g_signal_connect (flood_button_ok, "clicked", G_CALLBACK(fill_event),NULL);
 
   //entry setting
   flood_entry_R = gtk_entry_new();

@@ -1,38 +1,42 @@
 #include "global_v.h"
 
-cairo_surface_t *image;
 
 static void do_drawing(cairo_t *cr)
-{
-    cairo_set_source_surface(cr, image, 0, 0);
-	cairo_paint(cr);
+{      
+/* 
+	cairo_pattern_t *pattern;
+	pattern = cairo_pattern_create_for_surface(image);	
+    cairo_set_source(cr, pattern);
+    cairo_pattern_set_extend(cairo_get_source(cr), CAIRO_EXTEND_REPEAT);
+	cairo_rectangle(cr,150, 140, 100, 100);
+	cairo_fill(cr);
+    
+	cairo_pattern_destroy(pattern);	
+	*/
+    
+
+    cairo_set_source_surface(cr, surface, 0, 0);
 	
+	cairo_paint(cr);
+
 }
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
-	do_drawing(cr);
+    do_drawing(cr);
 	
 	return FALSE;
 }
+
 static gboolean openPNG(gpointer arg) 
 {
-	char *filename = 
-	filename = (char *)arg;
+	char *filename = (char *)arg;
 	
-	int w, h;
-    image = cairo_image_surface_create_from_png("filename");
-    cairo_t *cr = cairo_create(surface);
-	w = cairo_image_surface_get_width(image);
-	h = cairo_image_surface_get_height(image);	
-	
-//	cairo_translate(cr, -10, -50);
-//	cairo_scale(cr, 256.0/w, 256.0/h);
+	surface = cairo_image_surface_create_from_png("/home/jh/Desktop/linux_paint/app/filename");
+		
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 
-	//printf("%s\n", filename);	
-
 	//g_free(filename);
-    //cairo_surface_destroy(image);
+
 }
 
 static void open_dialog(GtkWidget *button, gpointer window)
@@ -57,14 +61,13 @@ static void open_dialog(GtkWidget *button, gpointer window)
 	if(res==GTK_RESPONSE_OK)
 	{
 		char *filename;
-		
 		filename = gtk_file_chooser_get_filename(chooser);
 		g_timeout_add(10, openPNG, filename);
-		printf("%s\n", filename);
-		g_free(filename);
 	}
 	else
 		g_print("You pressed the cancle\n");
+		
+	//cairo_surface_destroy(image);		
 	gtk_widget_destroy(dialog);
 }
 

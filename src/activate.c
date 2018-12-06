@@ -89,7 +89,7 @@ activate (GtkApplication* app,
 //    GtkWidget *window;
     GtkWidget *window_file;
     
-    GtkWidget *frame;
+//    GtkWidget *frame;
 //    GtkWidget *drawing_area;
 
     GtkWidget *button_color;
