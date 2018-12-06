@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+// flood color : back ground color is changed //
+
 struct flood_color{
     double R;
     double G;
