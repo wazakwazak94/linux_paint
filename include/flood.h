@@ -1,9 +1,16 @@
 #ifndef _FLOOD_H_
 #define _FLOOD_H_
 
-#include "global.h"
-
 // flood color : back ground color is changed //
+static cairo_surface_t *flood_color_surface = NULL;
+
+static GtkWidget *flood_color_window;
+static GtkWidget *flood_color_frame;
+static GtkWidget *flood_color_area;
+
+GtkWidget *flood_entry_R;
+GtkWidget *flood_entry_G;
+GtkWidget *flood_entry_B;
 
 struct flood_color{
     double R;

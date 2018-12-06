@@ -3,6 +3,9 @@
 #include "brush.h"
 #include "thickness.h"
 #include "erase.h"
+#include "flood.h"
+#include "save.h"
+#include "open.h"
 
 void
 clear_surface (void)
@@ -49,15 +52,8 @@ button_press_event_cb (GtkWidget      *widget,
 
     if (event->button == GDK_BUTTON_PRIMARY)
         {
-        draw_brush (widget, event->x, event->y);
+        	draw_brush (widget, event->x, event->y);
         }
-    /*else if (event->button == GDK_BUTTON_SECONDARY)
-        {
-        clear_surface ();
-        gtk_widget_queue_draw (widget);
-        }*/
-
-    /* We've handled the event, stop processing */
     return TRUE;
 }
 
@@ -96,9 +92,10 @@ activate (GtkApplication* app,
     GtkWidget *button_color;
     GtkWidget *button_save;
     GtkWidget *button_open;
-    GtkWidget *button_brush;
+    GtkWidget *button_flood;
     GtkWidget *button_erase;
     GtkWidget *button_thickness;
+    GtkWidget *button_flood; 
     GtkWidget *fixed;
 
     thickness_ = 10;
@@ -146,13 +143,13 @@ activate (GtkApplication* app,
 
     /* Button box */
     button_save = gtk_button_new_with_label ("Save");
-    g_signal_connect (button_save, "clicked", G_CALLBACK (print_hello), NULL);
+    g_signal_connect (button_save, "clicked", G_CALLBACK (save_dialog), NULL);
 
     button_open = gtk_button_new_with_label ("Open");
-    g_signal_connect (button_open, "clicked", G_CALLBACK (print_hello), NULL);
+    g_signal_connect (button_open, "clicked", G_CALLBACK (open_dialog), NULL);
 
-    button_brush = gtk_button_new_with_label ("Flood Fill");
-    g_signal_connect (button_brush, "clicked", G_CALLBACK (print_hello), NULL);
+    button_flood = gtk_button_new_with_label ("Flood Fill");
+    g_signal_connect (button_flood, "clicked", G_CALLBACK (flood_util), NULL);
     
     button_erase = gtk_button_new_with_label ("Erase");
     g_signal_connect (button_erase, "clicked", G_CALLBACK (erase_util), NULL);
@@ -165,12 +162,11 @@ activate (GtkApplication* app,
 
     gtk_fixed_put(GTK_FIXED (fixed), button_save, 0, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_open, 50, 0);
-    gtk_fixed_put(GTK_FIXED (fixed), button_brush, 105, 0);
+    gtk_fixed_put(GTK_FIXED (fixed), button_flood, 105, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_erase, 185, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_thickness, 240, 0);
     gtk_fixed_put(GTK_FIXED (fixed), button_color, 325, 0);
     gtk_fixed_put(GTK_FIXED (fixed), frame, 0, 40);
     
-    //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);
 } 
