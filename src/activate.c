@@ -173,4 +173,4 @@ activate (GtkApplication* app,
     
     //gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
     gtk_widget_show_all (window);
-}   
+} 

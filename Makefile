@@ -1,4 +1,5 @@
 FOLDERS = src lib app
+
 .PHONY = all clean
 
 all:
