@@ -84,18 +84,12 @@ void
 activate (GtkApplication* app,
           gpointer        user_data)
 {
-    GtkWidget *window;
-    
-    GtkWidget *frame;
-    GtkWidget *drawing_area;
-
     GtkWidget *button_color;
     GtkWidget *button_save;
     GtkWidget *button_open;
     GtkWidget *button_flood;
     GtkWidget *button_erase;
     GtkWidget *button_thickness;
-    GtkWidget *button_flood; 
     GtkWidget *fixed;
 
     thickness_ = 10;

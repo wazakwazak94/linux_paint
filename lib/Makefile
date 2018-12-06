@@ -6,7 +6,7 @@ OBJS = ${DIRS}/activate.o	\
 	   ${DIRS}/erase.o 		\
 	   ${DIRS}/flood.o 		\
 	   ${DIRS}/open.o 		\
-	   ${DIRS}/save.o
+	   ${DIRS}/save.o		\
 	   
 .PHONY = all clean
 

@@ -7,6 +7,6 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
 static gboolean openPNG(gpointer arg);
 
-static void open_dialog(GtkWidget *button, gpointer window);
+void open_dialog(GtkWidget *button, gpointer window);
 
 #endif

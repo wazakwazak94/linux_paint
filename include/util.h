@@ -1,14 +1,6 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-
-static void
-print_hello (GtkWidget *widget,
-             gpointer   data)
-{
-  g_print ("Hello World\n");
-}
-
 void
 clear_surface (void);
 

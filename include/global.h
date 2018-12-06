@@ -26,6 +26,11 @@ struct char_brush_color charColor;
 
 cairo_surface_t *surface;
 
+GtkWidget *window;
+GtkWidget *frame;
+GtkWidget *drawing_area;
+
+
 GtkWidget *color_window;
 GtkWidget *drawing_area;
 GtkWidget *color_frame;

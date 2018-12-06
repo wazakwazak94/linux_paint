@@ -1,4 +1,5 @@
 #include "global.h"
+#include "flood.h"
 
 struct flood_color floodColor;
 struct flood_color flood_showColor;

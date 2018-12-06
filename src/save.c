@@ -1,4 +1,5 @@
 #include "global.h"
+#include "save.h"
 
 static gboolean savePNG(gpointer arg) 
 {
@@ -22,7 +23,7 @@ static gboolean savePNG(gpointer arg)
     cairo_surface_write_to_png(surface, "Test.png");
 }
 
-static void save_dialog(GtkWidget *button, gpointer window)
+void save_dialog(GtkWidget *button, gpointer window)
 {
 	GtkWidget *dialog;
 	GtkFileChooser *chooser;

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "open.h"
 
 static void do_drawing(cairo_t *cr)
 {      
@@ -22,7 +23,7 @@ static gboolean openPNG(gpointer arg)
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 }
 
-static void open_dialog(GtkWidget *button, gpointer window)
+void open_dialog(GtkWidget *button, gpointer window)
 {
 	GtkWidget *dialog;
 	GtkFileChooser *chooser;

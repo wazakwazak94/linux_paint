@@ -3,7 +3,7 @@
 
 static gboolean savePNG(gpointer arg); 
 
-static void save_dialog(GtkWidget *button, gpointer window);
+void save_dialog(GtkWidget *button, gpointer window);
 
 
 #endif
