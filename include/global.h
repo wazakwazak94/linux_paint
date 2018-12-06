@@ -1,7 +1,11 @@
+#ifndef _GLOVAL_H_
+#define _GLOVAL_H_
+
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cairo.h>
 
 //color of Brush
 struct brush_color{
@@ -23,6 +27,7 @@ struct char_brush_color charColor;
 cairo_surface_t *surface;
 
 GtkWidget *color_window;
+GtkWidget *drawing_area;
 GtkWidget *color_frame;
 GtkWidget *color_area;
 
@@ -41,3 +46,5 @@ char char_th[4];
 GtkWidget *window_erase;
 GtkWidget *entry_erase;
 GtkWidget *scale_erase;
+
+#endif
