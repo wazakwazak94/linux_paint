@@ -1,10 +1,7 @@
 #ifndef _BRUSH_H_
 #define _BRUSH_H_
 
-//#include <unix-print/gtk/gtkunixprint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "global_v.h"
 
 extern cairo_surface_t *surface;
 static cairo_surface_t *color_surface = NULL;

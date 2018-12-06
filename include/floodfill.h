@@ -1,9 +1,7 @@
 #ifndef _FLOODflood_H_
 #define _FLOODflood_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "global_v.h"
 
 static cairo_surface_t *flood_color_surface = NULL;
 
